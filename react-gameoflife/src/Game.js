@@ -44,7 +44,9 @@ class Game extends React.Component {
       <div>
         <div className="Board"
           style={{ width: WIDTH, height: HEIGHT,
-            backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`}}>
+            backgroundSize: `${CELL_SIZE}px ${CELL_SIZE}px`}}
+          onClick={this.handleClick}
+          ref={(n) => { this.boardRef = n; }}>
         </div>
       </div>
     );
