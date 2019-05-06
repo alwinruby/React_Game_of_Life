@@ -29,8 +29,10 @@ class Game extends React.Component {
   }
   state = {
     cells: [],
+    isRunning: false,
+    interval: 100,
   }
-  // Create an empty board
+
   makeEmptyBoard() {
     let board = [];
     for (let y = 0; y < this.rows; y++) {
@@ -41,7 +43,7 @@ class Game extends React.Component {
     }
     return board;
   }
-  // Create cells from this.board
+
   makeCells() {
     let cells = [];
     for (let y = 0; y < this.rows; y++) {
@@ -76,8 +78,18 @@ class Game extends React.Component {
     this.setState({ cells: this.makeCells() });
   }
 
+  runGame = () => {
+    this.setState({ isRunning: true });
+  }
+  stopGame = () => {
+    this.setState({ isRunning: false });
+  }
+  handleIntervalChange = (event) => {
+    this.setState({ interval: event.target.value });
+  }
+
   render() {
-    const { cells } = this.state;
+    const { cells, isRunning } = this.state;
     return (
       <div>
         <div className="Board"
@@ -90,6 +102,18 @@ class Game extends React.Component {
                 key={`${cell.x},${cell.y}`}/>
           ))}
         </div>
+
+        <div className="controls">
+          Update every <input value={this.state.interval}
+              onChange={this.handleIntervalChange} /> msec
+          {isRunning ?
+            <button className="button"
+              onClick={this.stopGame}>Stop</button> :
+            <button className="button"
+              onClick={this.runGame}>Run</button>
+          }
+        </div>
+
       </div>
     );
   }
