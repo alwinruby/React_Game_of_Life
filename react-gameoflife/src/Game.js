@@ -93,7 +93,24 @@ class Game extends React.Component {
   runIteration() {
     console.log('running iteration');
     let newBoard = this.makeEmptyBoard();
-    // TODO: Add logic for each iteration here.
+
+    for (let y = 0; y < this.rows; y++) {
+      for (let x = 0; x < this.cols; x++) {
+        let neighbors = this.calculateNeighbors(this.board, x, y);
+        if (this.board[y][x]) {
+          if (neighbors === 2 || neighbors === 3) {
+            newBoard[y][x] = true;
+          } else {
+            newBoard[y][x] = false;
+          }
+        } else {
+          if (!this.board[y][x] && neighbors === 3) {
+            newBoard[y][x] = true;
+          }
+        }
+      }
+    }
+
     this.board = newBoard;
     this.setState({ cells: this.makeCells() });
     this.timeoutHandler = window.setTimeout(() => {
